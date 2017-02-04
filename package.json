@@ -1,0 +1,35 @@
+{
+  "name": "circuit-router",
+  "version": "0.0.1-alpha",
+  "description": "a signal based url router",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "circus",
+    "circuit",
+    "history",
+    "signal",
+    "router"
+  ],
+  "author": "philtoms",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/circus-acts/circuit-router.git"
+  },
+  "dependencies": {
+    "circuit-js": "0.0.3-alpha"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-transform-es2015-modules-umd": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "jest": "^19.0.2",
+    "webpack": "^2.2.1"
+  }
+}
