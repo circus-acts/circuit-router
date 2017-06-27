@@ -1,5 +1,5 @@
 import Circuit from 'circuit-js'
-import Router from '../'
+import Router, {push, replace} from '../'
 
 Object.defineProperty(window.location, 'pathname', {
   writable: true,
@@ -17,7 +17,7 @@ describe('router', () => {
   })
 
   describe('logic', () => {
-    it('should reduce signal and route', () => {
+    it('should reduce route context (values and index) into signal', () => {
       cct.switch({x}).signal('x')
       expect(spy).toHaveBeenCalledWith('x', {'path': 'x'}, '1')
     })
@@ -127,8 +127,26 @@ describe('router', () => {
     it('should signal history state change', () => {
       cct.switch({x})
       window.location.pathname = 'x'
-      window.onpopstate({state: {x: 123}})
-      expect(spy.mock.calls[0][1]).toEqual({path: 'x', state: {x: 123}})
+      window.onpopstate({state: {y: 123}})
+      expect(spy.mock.calls[0][1]).toEqual({path: 'x', state: {y: 123}})
+    })
+  })
+
+  describe('history', () => {
+    beforeEach(() => {
+      history.pushState = jest.fn();
+      history.replaceState = jest.fn();
+      cct.switch({x})
+    })
+    
+    it('should push state', () => {
+      push('/x', {y: 123})
+      expect(spy.mock.calls[0][1]).toEqual({path: 'x', state: {y: 123}})
+    })
+
+    it('should replace state', () => {
+      replace('/x', {y: 123})
+      expect(spy.mock.calls[0][1]).toEqual({path: 'x', state: {y: 123}})
     })
   })
 })

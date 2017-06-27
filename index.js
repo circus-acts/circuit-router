@@ -1,4 +1,4 @@
-import {Match} from 'circuit-js'
+import Circuit, {Match} from 'circuit-js'
 
 const STR = 0
 const VAR = 1
@@ -15,8 +15,8 @@ function parts(url) {
 }
 
 function match(routes) {
-  return (idx, value) => {
-    const url = (typeof value === 'string'? value : value.$path).split('?')
+  return (idx, value = '') => {
+    const url = (value ? typeof value === 'string'? value : value.$path : window.location.pathname).split('?')
     const state = value.hasOwnProperty('$state') ? value.$state : null
     const vv = url[0].split('/')
     const rr = routes[idx]
@@ -84,14 +84,17 @@ function Router({channel}) {
 }
 
 export const push = (location, state) => {
-  // by convention - push the history then pop it to establish the new location
+  // push the new state then pseudo-pop it to establish the location
   history.pushState(state, null, location)
   window.dispatchEvent(new CustomEvent('popstate', {detail: state}))
 }
 
-export const replace = (state) => {
-  history.replaceState(state)
+export const replace = (location, state) => {
+  history.replaceState(state, null, location)
   window.dispatchEvent(new CustomEvent('popstate', {detail: state}))
 }
 
 export default Router
+
+// for convenience
+export const router = new Circuit().bind(Router)
